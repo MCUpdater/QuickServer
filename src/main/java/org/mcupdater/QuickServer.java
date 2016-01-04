@@ -130,6 +130,11 @@ public class QuickServer extends MCUApp implements TrackerListener {
     }
 
     @Override
+    public void alert(String msg) {
+        baseLogger.warning(msg);
+    }
+
+    @Override
     public void onQueueFinished(DownloadQueue queue) {
         System.out.println(queue.getName() + " has finished.");
         queues.remove(queue);
