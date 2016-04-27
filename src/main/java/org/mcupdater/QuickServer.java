@@ -80,11 +80,11 @@ public class QuickServer extends MCUApp implements TrackerListener {
         instData.setHash(MCUpdater.calculateGroupHash(digests));
 
         for (Map.Entry<String, Module> entry : pack.getModules().entrySet()) {
-            if (entry.getValue().isServerSide()) {
+            if (entry.getValue().isSideValid(ModSide.SERVER)) {
                 modList.add(entry.getValue());
                 if (entry.getValue().hasSubmodules()) {
                     for (GenericModule submod : entry.getValue().getSubmodules()) {
-                        if (submod.isServerSide()) {
+                        if (submod.isSideValid(ModSide.SERVER)) {
                             modList.add(submod);
                         }
                     }
@@ -94,6 +94,7 @@ public class QuickServer extends MCUApp implements TrackerListener {
                 }
             }
         }
+        System.out.println();
         try {
             MCUpdater.getInstance().installMods(pack, modList, configList, installPath, options.has("clean"), instData, ModSide.SERVER );
         } catch (FileNotFoundException e) {
