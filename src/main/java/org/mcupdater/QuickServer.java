@@ -5,6 +5,7 @@ import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import org.apache.commons.lang3.StringUtils;
+import org.mcupdater.api.Version;
 import org.mcupdater.downloadlib.DownloadQueue;
 import org.mcupdater.downloadlib.Downloadable;
 import org.mcupdater.downloadlib.TrackerListener;
@@ -173,7 +174,22 @@ public class QuickServer extends MCUApp implements TrackerListener {
             }
             classpath.append(installPath.resolve("minecraft_server.jar").toString());
             jreArgs.add(classpath.toString());
-            jreArgs.add("cpw.mods.fml.relauncher.ServerLaunchWrapper");
+            String serverClass = pack.getServerClass();
+            if (serverClass.isEmpty()) {
+                for (GenericModule mod : modList) {
+                    if (mod.getId().startsWith("forge")) {
+                        if (Version.requestedFeatureLevel(pack.getVersion(),"1.8")) {
+                            serverClass = "net.minecraftforge.fml.relauncher.ServerLaunchWrapper";
+                        } else {
+                            serverClass = "cpw.mods.fml.relauncher.ServerLaunchWrapper";
+                        }
+                    }
+                }
+                if (serverClass.isEmpty()) {
+                    serverClass = "net.minecraft.server.MinecraftServer";
+                }
+            }
+            jreArgs.add(serverClass);
             String[] fieldArr = clArgs.toString().split(" ");
             jreArgs.addAll(Arrays.asList(fieldArr));
             System.out.println("Command-line to launch:");
