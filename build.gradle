@@ -1,0 +1,20 @@
+plugins {
+    id 'workspace.java-application-conventions'
+}
+
+dependencies {
+    implementation project(':MCU-API')
+    implementation project(':MCU-DownloadLib')
+}
+
+version = sharedVersion
+
+jar {
+    duplicatesStrategy DuplicatesStrategy.INCLUDE
+    from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest {
+        attributes "Main-Class": 'org.mcupdater.QuickServer'
+    }
+}
+
+jar.setDependsOn([':MCU-API:jar',':MCU-DownloadLib:jar'])

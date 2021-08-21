@@ -11,6 +11,7 @@ import org.mcupdater.downloadlib.Downloadable;
 import org.mcupdater.downloadlib.TrackerListener;
 import org.mcupdater.instance.Instance;
 import org.mcupdater.model.*;
+import org.mcupdater.model.Module;
 import org.mcupdater.mojang.Library;
 import org.mcupdater.mojang.MinecraftVersion;
 import org.mcupdater.settings.Profile;
