@@ -122,7 +122,7 @@ public class QuickServer extends MCUApp implements TrackerListener {
 
     @Override
     public DownloadQueue submitNewQueue(String queueName, String parent, Collection<Downloadable> files, File basePath, File cachePath) {
-        DownloadQueue newQueue = new DownloadQueue(queueName, parent, this, files, basePath, cachePath);
+        DownloadQueue newQueue = new DownloadQueue(queueName, parent, this, files, basePath, cachePath, this.baseLogger);
         queues.add(newQueue);
         return newQueue;
     }
